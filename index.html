@@ -3,52 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>zlafik | Портфолио</title>
+    <title>zlafik | Backend Developer</title>
+    <meta property="og:title" content="zlafik | Backend Developer">
+    <meta property="og:description" content="Специализация: Discord боты, API, автоматизация, Python разработка">
+    <meta property="og:type" content="website">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
     <style>
+        :root {
+            --primary-black: #000000;
+            --secondary-black: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --medium-gray: #666666;
+            --light-gray: #cccccc;
+            --white: #ffffff;
+            --accent: #ffffff;
+            --accent-glow: rgba(255, 255, 255, 0.3);
+            --blur-intensity: 15px;
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
         
-        :root {
-            --primary-black: #0a0a0a;
-            --secondary-black: #1a1a1a;
-            --light-gray: #f5f5f5;
-            --medium-gray: #888;
-            --white: #ffffff;
-            --blur-intensity: 10px;
-        }
-        
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--primary-black);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-        
-        .spinner {
-            width: 70px;
-            height: 70px;
-            border: 5px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            border-top-color: var(--white);
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+        html {
+            scroll-behavior: smooth;
         }
         
         body {
@@ -59,16 +44,97 @@
             overflow-x: hidden;
             position: relative;
             opacity: 0;
-            animation: fadeInBody 0.5s ease forwards;
+            animation: fadeInBody 0.8s ease forwards;
             animation-delay: 0.5s;
         }
         
         @keyframes fadeInBody {
-            to {
-                opacity: 1;
-            }
+            to { opacity: 1; }
         }
         
+        /* Кастомный курсор */
+        .custom-cursor {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            mix-blend-mode: difference;
+        }
+        
+        .custom-cursor.hover {
+            width: 48px;
+            height: 48px;
+            background-color: transparent;
+            border: 2px solid var(--accent);
+            backdrop-filter: blur(2px);
+        }
+        
+        .custom-cursor.click {
+            transform: translate(-50%, -50%) scale(0.9);
+        }
+        
+        .cursor-trail {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.3;
+            transform: translate(-50%, -50%);
+        }
+        
+        /* Предзагрузчик */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-black);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .loading-text {
+            font-size: 1.2rem;
+            color: var(--light-gray);
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .loading-dots {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            animation: pulse 1.4s infinite ease-in-out;
+        }
+        
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+        
+        /* Частицы */
         #particles-js {
             position: fixed;
             top: 0;
@@ -79,35 +145,30 @@
             pointer-events: none;
         }
         
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
+        /* Главное меню */
         header {
-            padding: 20px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(var(--blur-intensity));
-            position: sticky;
+            position: fixed;
             top: 0;
-            z-index: 100;
-            background-color: rgba(10, 10, 10, 0.95);
-            animation: slideDown 0.8s ease;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: var(--transition);
+            backdrop-filter: blur(var(--blur-intensity));
+            background: rgba(0, 0, 0, 0.85);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
         
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        header.scrolled {
+            padding: 15px 0;
+            background: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
         }
         
         .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -117,948 +178,1788 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            animation: fadeInLeft 0.8s ease 0.3s both;
         }
         
-        @keyframes fadeInLeft {
-            from {
-                transform: translateX(-30px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+        .logo {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--light-gray) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-black);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .logo:hover .logo-icon {
+            transform: rotate(15deg) scale(1.1);
         }
         
         .nickname {
             font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            background: linear-gradient(to right, #fff, #aaa);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--white) 0%, var(--light-gray) 100%);
             -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             background-clip: text;
-            color: transparent;
+            letter-spacing: -0.5px;
         }
         
         .tagline {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--medium-gray);
             border-left: 2px solid var(--medium-gray);
             padding-left: 12px;
             line-height: 1.3;
         }
         
+        /* Навигация */
         nav {
-            animation: fadeInRight 0.8s ease 0.3s both;
+            display: flex;
+            align-items: center;
+            gap: 30px;
         }
         
-        @keyframes fadeInRight {
-            from {
-                transform: translateX(30px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        
-        nav ul {
+        .nav-links {
             display: flex;
             list-style: none;
-            gap: 20px;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
         }
         
-        nav a {
-            color: var(--white);
+        .nav-links li {
+            position: relative;
+        }
+        
+        .nav-links a {
+            color: var(--light-gray);
             text-decoration: none;
             font-weight: 500;
-            font-size: 1rem;
-            padding: 6px 0;
+            font-size: 0.95rem;
+            padding: 8px 0;
             position: relative;
-            transition: color 0.3s;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
-        nav a:hover {
-            color: var(--medium-gray);
+        .nav-links a i {
+            font-size: 0.9rem;
+            opacity: 0.7;
         }
         
-        nav a::after {
+        .nav-links a:hover {
+            color: var(--white);
+        }
+        
+        .nav-links a:hover i {
+            opacity: 1;
+        }
+        
+        .nav-links a.active {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        .nav-links a.active i {
+            opacity: 1;
+        }
+        
+        .nav-links a::after {
             content: '';
             position: absolute;
             bottom: 0;
             left: 0;
             width: 0;
             height: 2px;
-            background-color: var(--white);
-            transition: width 0.3s ease;
+            background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
+            transition: var(--transition);
         }
         
-        nav a:hover::after {
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
             width: 100%;
         }
         
+        /* Мобильное меню */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1002;
+        }
+        
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 1001;
+            padding: 80px 30px 30px;
+            transition: var(--transition);
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .mobile-menu.active {
+            right: 0;
+        }
+        
+        .mobile-menu a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .mobile-menu a:hover,
+        .mobile-menu a.active {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+        
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Основной контент */
         .main-content {
-            padding: 60px 0;
-            animation: fadeInUp 0.8s ease 0.5s both;
+            padding-top: 100px;
+            min-height: 100vh;
         }
         
-        @keyframes fadeInUp {
-            from {
-                transform: translateY(30px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
         
+        /* Секции */
         .section {
             display: none;
-            animation: fadeIn 0.5s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            min-height: 80vh;
+            padding: 80px 0;
         }
         
         .section.active {
             display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
         }
         
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--white) 0%, var(--medium-gray) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .section-subtitle {
+            color: var(--medium-gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Герой секция */
         .hero {
+            display: flex;
+            align-items: center;
+            min-height: 90vh;
+            position: relative;
+        }
+        
+        .hero-content {
             max-width: 800px;
             margin: 0 auto;
-            padding: 30px 0;
+            text-align: center;
         }
         
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 25px;
+        .hero-title {
+            font-size: 3.5rem;
             font-weight: 800;
-            animation: fadeIn 0.8s ease 0.6s both;
+            margin-bottom: 20px;
+            line-height: 1.1;
         }
         
-        .hero .highlight {
-            color: var(--white);
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 0 8px;
-            border-radius: 4px;
+        .hero-title .highlight {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--light-gray) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
         }
         
-        .profile-info {
+        .hero-title .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            animation: underline 3s ease-in-out infinite;
+        }
+        
+        @keyframes underline {
+            0%, 100% { transform: scaleX(0.3); opacity: 0.5; }
+            50% { transform: scaleX(1); opacity: 1; }
+        }
+        
+        .hero-description {
+            font-size: 1.2rem;
+            color: var(--light-gray);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Карточки профиля */
+        .profile-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
         
         .profile-card {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 25px;
             backdrop-filter: blur(var(--blur-intensity));
-            animation: fadeInUp 0.8s ease var(--delay) both;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
         
-        .profile-card:nth-child(1) { --delay: 0.7s; }
-        .profile-card:nth-child(2) { --delay: 0.8s; }
-        .profile-card:nth-child(3) { --delay: 0.9s; }
-        .profile-card:nth-child(4) { --delay: 1.0s; }
-        .profile-card:nth-child(5) { --delay: 1.1s; }
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.02) 50%, transparent 70%);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .profile-card:hover::before {
+            opacity: 1;
+            animation: shine 2s ease-in-out infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
         
         .profile-card h3 {
             font-size: 1.1rem;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             color: var(--medium-gray);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
         
         .profile-card h3 i {
             font-size: 1rem;
+            color: var(--accent);
         }
         
         .profile-content {
-            font-size: 1.1rem;
-            line-height: 1.5;
+            font-size: 1.2rem;
+            color: var(--white);
         }
         
         .age-animation {
-            font-family: monospace;
-            color: #00ff00;
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
-            display: inline-block;
+            font-family: 'Courier New', monospace;
+            color: var(--accent);
+            font-weight: 600;
+            text-shadow: 0 0 10px var(--accent-glow);
+            letter-spacing: 2px;
         }
         
-        .principles-list {
-            list-style: none;
-        }
-        
-        .principles-list li {
-            margin-bottom: 8px;
-            padding-left: 18px;
+        /* Основной проект */
+        .main-project-showcase {
+            max-width: 900px;
+            margin: 60px auto;
             position: relative;
-            animation: fadeInLeft 0.8s ease var(--delay) both;
         }
         
-        .principles-list li:nth-child(1) { --delay: 1.2s; }
-        .principles-list li:nth-child(2) { --delay: 1.3s; }
-        .principles-list li:nth-child(3) { --delay: 1.4s; }
-        .principles-list li:nth-child(4) { --delay: 1.5s; }
-        
-        .principles-list li:before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: var(--medium-gray);
-        }
-        
-        .projects-header {
+        .main-project-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            backdrop-filter: blur(var(--blur-intensity));
             text-align: center;
-            margin-bottom: 40px;
-            animation: fadeIn 0.8s ease both;
+            position: relative;
+            overflow: hidden;
         }
         
-        .projects-header h2 {
+        .project-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: var(--primary-black);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .project-icon {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        
+        .main-project-card h2 {
             font-size: 2.2rem;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
+            font-weight: 700;
         }
         
-        .projects-header p {
-            color: var(--medium-gray);
+        .main-project-card p {
+            color: var(--light-gray);
             font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .tech-tag {
+            background: rgba(255, 255, 255, 0.07);
+            color: var(--light-gray);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+        
+        .tech-tag:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+        }
+        
+        /* Принципы */
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .principle-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            transition: var(--transition);
+        }
+        
+        .principle-card:hover {
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+        
+        .principle-card h4 {
+            color: var(--accent);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Проекты */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
         }
         
         .project-card {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
             padding: 30px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(var(--blur-intensity));
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: fadeInUp 0.8s ease both;
+            transition: var(--transition);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
         
         .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            transform: translateY(-10px);
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
         
-        .project-card h3 {
-            font-size: 1.6rem;
-            margin-bottom: 12px;
+        .project-header {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
+            margin-bottom: 20px;
         }
         
-        .project-card h3 i {
-            color: var(--medium-gray);
+        .project-icon-small {
+            font-size: 1.8rem;
+            color: var(--accent);
         }
         
-        .project-card p {
-            color: var(--medium-gray);
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            flex: 1;
+        }
+        
+        .project-description {
+            color: var(--light-gray);
             margin-bottom: 25px;
-            font-size: 1rem;
+            flex: 1;
             line-height: 1.6;
         }
-        
-        .project-tech {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-        
-        .tech-badge {
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 6px 12px;
-            border-radius: 16px;
-            font-size: 0.85rem;
-            color: var(--white);
-            animation: fadeIn 0.8s ease var(--delay) both;
-        }
-        
-        .tech-badge:nth-child(1) { --delay: 0.9s; }
-        .tech-badge:nth-child(2) { --delay: 1.0s; }
-        .tech-badge:nth-child(3) { --delay: 1.1s; }
-        .tech-badge:nth-child(4) { --delay: 1.2s; }
-        .tech-badge:nth-child(5) { --delay: 1.3s; }
         
         .project-features {
             margin-bottom: 25px;
         }
         
         .project-features h4 {
-            font-size: 1.2rem;
-            margin-bottom: 12px;
             color: var(--medium-gray);
+            margin-bottom: 12px;
+            font-size: 1rem;
         }
         
         .features-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
             list-style: none;
         }
         
         .features-list li {
-            padding-left: 22px;
+            color: var(--light-gray);
+            margin-bottom: 8px;
+            padding-left: 20px;
             position: relative;
-            color: var(--medium-gray);
             font-size: 0.95rem;
-            animation: fadeInLeft 0.8s ease var(--delay) both;
         }
         
-        .features-list li:nth-child(1) { --delay: 1.4s; }
-        .features-list li:nth-child(2) { --delay: 1.5s; }
-        .features-list li:nth-child(3) { --delay: 1.6s; }
-        .features-list li:nth-child(4) { --delay: 1.7s; }
-        
-        .features-list li:before {
-            content: "✓";
+        .features-list li::before {
+            content: '›';
             position: absolute;
             left: 0;
-            color: #00ff00;
+            color: var(--accent);
+            font-weight: bold;
         }
         
-        .project-buttons {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .contact-container {
-            max-width: 700px;
+        /* Навыки */
+        .skills-container {
+            max-width: 1000px;
             margin: 0 auto;
         }
         
-        .contact-header {
-            text-align: center;
-            margin-bottom: 40px;
-            animation: fadeIn 0.8s ease both;
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
         }
         
-        .contact-header h2 {
-            font-size: 2.2rem;
-            margin-bottom: 12px;
-        }
-        
-        .contact-header p {
-            color: var(--medium-gray);
-            font-size: 1.1rem;
-        }
-        
-        .contact-methods {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 25px;
-        }
-        
-        .contact-row {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            width: 100%;
-        }
-        
-        .contact-card {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
+        .skill-category {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
             padding: 25px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(var(--blur-intensity));
-            transition: transform 0.3s ease;
-            animation: fadeInUp 0.8s ease var(--delay) both;
-            flex: 1;
-            max-width: 220px;
+            transition: var(--transition);
         }
         
-        .contact-card.telegram-card {
-            max-width: 300px;
-            --delay: 0.8s;
-        }
-        
-        .contact-card.discord-card { --delay: 1.0s; }
-        .contact-card.email-card { --delay: 1.0s; }
-        
-        .contact-card:hover {
+        .skill-category:hover {
+            border-color: rgba(255, 255, 255, 0.1);
             transform: translateY(-5px);
         }
         
-        .contact-icon {
-            font-size: 2.2rem;
+        .skill-category h3 {
+            color: var(--accent);
             margin-bottom: 15px;
-            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .skill-list {
+            list-style: none;
+        }
+        
+        .skill-list li {
+            color: var(--light-gray);
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .skill-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+        
+        /* Контакты */
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .contact-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .contact-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 15px;
         }
         
         .contact-card h3 {
             font-size: 1.3rem;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
         
         .contact-card p {
             color: var(--medium-gray);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             font-size: 0.95rem;
         }
         
+        /* Кнопки */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            padding: 12px 25px;
+            gap: 10px;
+            padding: 14px 30px;
             border-radius: 50px;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 1rem;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             border: none;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
             backdrop-filter: blur(var(--blur-intensity));
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .btn:hover::before {
+            opacity: 1;
+            animation: shine 1.5s ease-in-out infinite;
         }
         
         .btn-primary {
-            background-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1);
             color: var(--white);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .btn-primary:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
         
         .btn-secondary {
-            background-color: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.3);
             color: var(--white);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
         
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        /* Форма обратной связи */
+        .contact-form {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--light-gray);
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px var(--accent-glow);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        /* Футер */
         footer {
+            background: rgba(0, 0, 0, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px 0;
+            margin-top: 80px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
             text-align: center;
-            padding: 30px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
             color: var(--medium-gray);
-            font-size: 0.85rem;
-            animation: fadeInUp 0.8s ease 1s both;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .footer-bottom {
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+            margin-top: 30px;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--light-gray);
+        }
+        
+        /* Уведомления */
+        .notification {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--primary-black);
+            padding: 15px 25px;
+            border-radius: 50px;
+            z-index: 1000;
+            opacity: 0;
+            transition: var(--transition);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .notification.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        /* Кнопка наверх */
+        #scrollToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            color: var(--white);
+            font-size: 1.2rem;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            transition: var(--transition);
+            backdrop-filter: blur(var(--blur-intensity));
+        }
+        
+        #scrollToTop:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px) scale(1.1);
+        }
+        
+        /* Переключатель темы */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--white);
+            z-index: 1001;
+            transition: var(--transition);
+            backdrop-filter: blur(var(--blur-intensity));
+        }
+        
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(30deg);
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
         }
         
         @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
+            .custom-cursor {
+                display: none;
             }
             
-            .logo-area {
-                flex-direction: column;
-                gap: 8px;
+            body {
+                cursor: auto;
             }
             
-            .tagline {
-                border-left: none;
-                padding-left: 0;
-                border-top: 2px solid var(--medium-gray);
-                padding-top: 8px;
-                font-size: 0.85rem;
+            .mobile-menu-btn {
+                display: block;
             }
             
-            nav ul {
-                gap: 12px;
-                flex-wrap: wrap;
-                justify-content: center;
+            .nav-links {
+                display: none;
             }
             
-            nav a {
-                font-size: 0.95rem;
+            .hero-title {
+                font-size: 2.5rem;
             }
             
-            .main-content {
-                padding: 40px 0;
-            }
-            
-            .hero h1 {
-                font-size: 1.8rem;
-                margin-bottom: 20px;
-            }
-            
-            .profile-info {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            
-            .profile-card {
-                padding: 18px;
-            }
-            
-            .profile-card h3 {
-                font-size: 1rem;
-            }
-            
-            .profile-content {
-                font-size: 1rem;
-            }
-            
-            .age-animation {
+            .hero-description {
                 font-size: 1.1rem;
             }
             
-            .projects-header h2 {
-                font-size: 1.8rem;
+            .section-title {
+                font-size: 2.2rem;
             }
             
-            .project-card {
-                padding: 20px;
+            .section {
+                padding: 60px 0;
             }
             
-            .project-card h3 {
-                font-size: 1.3rem;
+            .main-content {
+                padding-top: 80px;
             }
             
-            .project-card p {
-                font-size: 0.95rem;
-            }
-            
-            .project-tech {
-                gap: 8px;
-            }
-            
-            .tech-badge {
-                font-size: 0.8rem;
-                padding: 5px 10px;
-            }
-            
-            .features-list {
+            .profile-grid,
+            .projects-grid,
+            .skills-grid,
+            .contact-grid {
                 grid-template-columns: 1fr;
             }
             
-            .project-buttons {
+            .main-project-card {
+                padding: 30px 20px;
+            }
+            
+            .main-project-card h2 {
+                font-size: 1.8rem;
+            }
+            
+            .btn-group {
                 flex-direction: column;
-                gap: 10px;
             }
             
             .btn {
                 width: 100%;
-                padding: 12px 20px;
             }
             
-            .contact-header h2 {
-                font-size: 1.8rem;
+            .theme-toggle {
+                top: 15px;
+                left: 15px;
+                width: 40px;
+                height: 40px;
             }
             
-            .contact-row {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
+            #scrollToTop {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
             }
             
-            .contact-card {
-                max-width: 100% !important;
-                width: 100%;
-                padding: 20px;
-            }
-            
-            .contact-card.telegram-card {
-                order: 1;
-            }
-            
-            .contact-card.discord-card {
-                order: 2;
-            }
-            
-            .contact-card.email-card {
-                order: 3;
-            }
-            
-            .contact-icon {
-                font-size: 1.8rem;
-            }
-            
-            footer {
-                padding: 20px 0;
-                font-size: 0.8rem;
+            .contact-form {
+                padding: 30px 20px;
             }
         }
         
         @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
             .nickname {
                 font-size: 1.5rem;
             }
             
-            .hero h1 {
+            .tagline {
+                font-size: 0.8rem;
+            }
+            
+            .main-project-card h2 {
                 font-size: 1.5rem;
             }
             
-            .profile-content {
-                font-size: 0.95rem;
+            .profile-card,
+            .project-card,
+            .contact-card {
+                padding: 20px;
             }
             
-            .age-animation {
-                font-size: 1rem;
+            .notification {
+                width: 90%;
+                text-align: center;
+                padding: 12px 20px;
             }
-            
-            .principles-list li {
-                font-size: 0.9rem;
-            }
-            
-            .project-card h3 {
-                font-size: 1.2rem;
-            }
-            
-            .contact-header h2 {
-                font-size: 1.5rem;
-            }
-            
-            .contact-card h3 {
-                font-size: 1.1rem;
-            }
+        }
+        
+        /* Анимации для AOS */
+        [data-aos] {
+            pointer-events: none;
+        }
+        
+        [data-aos].aos-animate {
+            pointer-events: auto;
         }
     </style>
 </head>
 <body>
+    <!-- Предзагрузчик -->
     <div id="preloader">
-        <div class="spinner"></div>
+        <div style="text-align: center;">
+            <div class="spinner"></div>
+            <div class="loading-text">Загрузка портфолио</div>
+            <div class="loading-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
     </div>
     
+    <!-- Кастомный курсор -->
+    <div class="custom-cursor"></div>
+    
+    <!-- Частицы -->
     <div id="particles-js"></div>
     
-    <header>
-        <div class="container header-content">
+    <!-- Переключатель темы -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+    
+    <!-- Кнопка наверх -->
+    <button id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <!-- Уведомления -->
+    <div class="notification" id="notification"></div>
+    
+    <!-- Хедер -->
+    <header id="header">
+        <div class="header-content">
             <div class="logo-area">
-                <h1 class="nickname">zlafik</h1>
-                <div class="tagline">
-                    Кодер<br>Разработчик<br>Боты
-                </div>
+                <a href="#home" class="logo">
+                    <div class="logo-icon">Z</div>
+                    <div>
+                        <div class="nickname">zlafik</div>
+                        <div class="tagline">Backend Developer</div>
+                    </div>
+                </a>
             </div>
             
+            <!-- Десктопное меню -->
             <nav>
-                <ul>
-                    <li><a href="#" data-section="home">Главная</a></li>
-                    <li><a href="#" data-section="projects">Проекты</a></li>
-                    <li><a href="#" data-section="contact">Связь</a></li>
+                <ul class="nav-links">
+                    <li><a href="#home" data-section="home" class="active"><i class="fas fa-home"></i> Главная</a></li>
+                    <li><a href="#projects" data-section="projects"><i class="fas fa-code"></i> Проекты</a></li>
+                    <li><a href="#skills" data-section="skills"><i class="fas fa-cogs"></i> Навыки</a></li>
+                    <li><a href="#contact" data-section="contact"><i class="fas fa-envelope"></i> Контакты</a></li>
                 </ul>
+                
+                <!-- Кнопка мобильного меню -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
             </nav>
         </div>
     </header>
     
+    <!-- Мобильное меню -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#home" data-section="home" class="active"><i class="fas fa-home"></i> Главная</a>
+        <a href="#projects" data-section="projects"><i class="fas fa-code"></i> Проекты</a>
+        <a href="#skills" data-section="skills"><i class="fas fa-cogs"></i> Навыки</a>
+        <a href="#contact" data-section="contact"><i class="fas fa-envelope"></i> Контакты</a>
+        <div style="margin-top: auto; padding: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <div class="tagline" style="border-left: none; text-align: center; font-size: 0.9rem;">
+                Backend Developer<br>
+                Discord Bots • API • Automation
+            </div>
+        </div>
+    </div>
+    
+    <!-- Основной контент -->
     <main class="main-content">
         <div class="container">
+            <!-- Главная страница -->
             <section id="home" class="section active">
                 <div class="hero">
-                    <h1>Привет, я <span class="highlight">zlafik</span></h1>
-                    
-                    <div class="profile-info">
-                        <div class="profile-card">
-                            <h3><i class="fas fa-user"></i> Профиль</h3>
-                            <div class="profile-content">
-                                ID: zlafik / Рома<br>
-                                <span class="age-animation" id="ageCounter">00:00:00:00</span>
+                    <div class="hero-content" data-aos="fade-up" data-aos-delay="100">
+                        <h1 class="hero-title">
+                            Привет, я <span class="highlight">zlafik</span>
+                        </h1>
+                        <p class="hero-description">
+                            Backend разработчик, специализируюсь на создании Discord ботов, API и систем автоматизации. 
+                            Фокус на качественный код и эффективные решения.
+                        </p>
+                        
+                        <div class="profile-grid" data-aos="fade-up" data-aos-delay="200">
+                            <div class="profile-card">
+                                <h3><i class="fas fa-user"></i> Профиль</h3>
+                                <div class="profile-content">
+                                    ID: zlafik / Рома<br>
+                                    <span class="age-animation" id="ageCounter">00:00:00:00</span>
+                                </div>
+                            </div>
+                            
+                            <div class="profile-card">
+                                <h3><i class="fas fa-cogs"></i> Специализация</h3>
+                                <div class="profile-content">
+                                    Backend • Automation • API
+                                </div>
+                            </div>
+                            
+                            <div class="profile-card">
+                                <h3><i class="fas fa-calendar-alt"></i> Опыт</h3>
+                                <div class="profile-content">
+                                    С 2024 года
+                                </div>
+                            </div>
+                            
+                            <div class="profile-card">
+                                <h3><i class="fas fa-directions"></i> Направление</h3>
+                                <div class="profile-content">
+                                    Discord Bots • Веб-API • Скрипты
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="profile-card">
-                            <h3><i class="fas fa-cogs"></i> Специализация</h3>
-                            <div class="profile-content">
-                                Backend • Automation
+                        <!-- Основной проект -->
+                        <div class="main-project-showcase" data-aos="zoom-in" data-aos-delay="300">
+                            <div class="main-project-card">
+                                <div class="project-badge">MAIN PROJECT</div>
+                                <div class="project-icon">
+                                    <i class="fab fa-discord"></i>
+                                </div>
+                                <h2>Discord Server Cloner V3</h2>
+                                <p>
+                                    Мощный инструмент для полного клонирования Discord серверов. 
+                                    Сохраняет иерархию, порядок ролей и каналов с максимальной точностью. 
+                                    Стабильная работа, обработка ошибок и поддержка всех типов каналов.
+                                </p>
+                                
+                                <div class="tech-stack">
+                                    <span class="tech-tag">Python</span>
+                                    <span class="tech-tag">Discord API</span>
+                                    <span class="tech-tag">AsyncIO</span>
+                                    <span class="tech-tag">aiohttp</span>
+                                    <span class="tech-tag">WebSocket</span>
+                                </div>
+                                
+                                <div class="btn-group">
+                                    <a href="https://github.com/zlafik1/discord-server-cloner" target="_blank" class="btn btn-primary">
+                                        <i class="fab fa-github"></i> GitHub репозиторий
+                                    </a>
+                                    <a href="https://github.com/zlafik1/discord-server-cloner/archive/refs/heads/main.zip" class="btn btn-secondary" id="downloadMain">
+                                        <i class="fas fa-download"></i> Скачать проект
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="profile-card">
-                            <h3><i class="fas fa-calendar-alt"></i> Опыт</h3>
-                            <div class="profile-content">
-                                С 2024
+                        <!-- Принципы -->
+                        <div class="principles-grid" data-aos="fade-up" data-aos-delay="400">
+                            <div class="principle-card">
+                                <h4><i class="fas fa-bullseye"></i> Фокус на результат</h4>
+                                <p>Минимум диалогов, максимум качественного кода и рабочих решений.</p>
+                            </div>
+                            
+                            <div class="principle-card">
+                                <h4><i class="fas fa-shield-alt"></i> Профессионализм</h4>
+                                <p>Игнорирование провокаций и конфликтов. Только деловое общение.</p>
+                            </div>
+                            
+                            <div class="principle-card">
+                                <h4><i class="fas fa-user-secret"></i> Самостоятельность</h4>
+                                <p>Работаю исключительно один, полностью контролирую качество кода.</p>
+                            </div>
+                            
+                            <div class="principle-card">
+                                <h4><i class="fas fa-filter"></i> Жесткий отбор</h4>
+                                <p>Непрофессионализм = моментальный игнор. Ценю своё время.</p>
                             </div>
                         </div>
-                        
-                        <div class="profile-card">
-                            <h3><i class="fas fa-directions"></i> Направление</h3>
-                            <div class="profile-content">
-                                Discord Bots • API
-                            </div>
-                        </div>
-                        
-                        <div class="profile-card">
-                            <h3><i class="fas fa-code"></i> Основной проект</h3>
-                            <div class="profile-content">
-                                Discord Server Cloner V3
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="profile-card">
-                        <h3><i class="fas fa-gem"></i> Принципы</h3>
-                        <ul class="principles-list">
-                            <li>Фокус на код: Минимум диалогов, максимум результата</li>
-                            <li>Игнорирование провокаций: Троллинг и конфликты — не мой профиль</li>
-                            <li>Самостоятельность: Работаю исключительно один</li>
-                            <li>ЧС как инструмент: Непрофессионализм = моментальный игнор</li>
-                        </ul>
                     </div>
                 </div>
             </section>
             
+            <!-- Проекты -->
             <section id="projects" class="section">
-                <div class="projects-header">
-                    <h2>Проекты</h2>
-                    <p>Мои ключевые разработки</p>
+                <div class="section-header" data-aos="fade-up">
+                    <h2 class="section-title">Мои проекты</h2>
+                    <p class="section-subtitle">Ключевые разработки, которые демонстрируют мой подход к созданию качественного ПО</p>
                 </div>
                 
-                <div class="project-card">
-                    <h3><i class="fab fa-discord"></i> Discord Server Cloner V3</h3>
-                    <p>Мощный инструмент для полного клонирования Discord серверов. Сохраняет иерархию, порядок ролей и каналов с максимальной точностью. Стабильная работа, обработка ошибок и поддержка всех типов каналов.</p>
-                    
-                    <div class="project-tech">
-                        <span class="tech-badge">Python</span>
-                        <span class="tech-badge">Discord API</span>
-                        <span class="tech-badge">AsyncIO</span>
-                        <span class="tech-badge">aiohttp</span>
-                        <span class="tech-badge">WebSocket</span>
+                <div class="projects-grid">
+                    <div class="project-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="project-header">
+                            <div class="project-icon-small">
+                                <i class="fab fa-discord"></i>
+                            </div>
+                            <h3 class="project-title">Discord Server Cloner V3</h3>
+                        </div>
+                        
+                        <p class="project-description">
+                            Продвинутый инструмент для полного клонирования структуры Discord серверов 
+                            с сохранением всей иерархии и настроек.
+                        </p>
+                        
+                        <div class="project-features">
+                            <h4>Основные возможности:</h4>
+                            <ul class="features-list">
+                                <li>Полное копирование структуры сервера</li>
+                                <li>Сохранение порядка ролей и каналов</li>
+                                <li>Обработка ошибок и автоматические повторы</li>
+                                <li>Поддержка всех типов каналов</li>
+                                <li>Асинхронная архитектура</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tech-stack" style="justify-content: start; margin-top: auto;">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Discord.py</span>
+                            <span class="tech-tag">AsyncIO</span>
+                        </div>
+                        
+                        <div class="btn-group" style="justify-content: start; margin-top: 20px;">
+                            <a href="https://github.com/zlafik1/discord-server-cloner" target="_blank" class="btn btn-primary">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                            <a href="https://github.com/zlafik1/discord-server-cloner/archive/refs/heads/main.zip" class="btn btn-secondary">
+                                <i class="fas fa-download"></i> Скачать
+                            </a>
+                        </div>
                     </div>
                     
-                    <div class="project-features">
-                        <h4>Особенности:</h4>
-                        <ul class="features-list">
-                            <li>Полное копирование структуры сервера</li>
-                            <li>Правильный порядок ролей и каналов</li>
-                            <li>Стабильная работа с обработкой ошибок</li>
-                            <li>Поддержка всех типов каналов</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="project-buttons">
-                        <a href="https://github.com/zlafik1/discord-server-cloner" target="_blank" class="btn btn-primary">
-                            <i class="fab fa-github"></i> GitHub
-                        </a>
-                        <a href="https://github.com/zlafik1/discord-server-cloner/archive/refs/heads/main.zip" class="btn btn-secondary">
-                            <i class="fas fa-download"></i> Скачать
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <h3><i class="fas fa-check-circle"></i> Playerok-Checker</h3>
-                    <p>Мощный и надежный чекер для проверки аккаунтов на платформе Playerok. Инструмент обеспечивает быструю и точную проверку учетных записей с поддержкой многопоточности и прокси.</p>
-                    
-                    <div class="project-tech">
-                        <span class="tech-badge">Python</span>
-                        <span class="tech-badge">Requests</span>
-                        <span class="tech-badge">Threading</span>
-                        <span class="tech-badge">Proxy Support</span>
-                        <span class="tech-badge">API</span>
-                    </div>
-                    
-                    <div class="project-features">
-                        <h4>Особенности:</h4>
-                        <ul class="features-list">
-                            <li>Высокая скорость проверки благодаря многопоточности</li>
-                            <li>Поддержка прокси для обхода ограничений</li>
-                            <li>Гибкая настройка параметров проверки</li>
-                            <li>Детальная статистика и отчеты</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="project-buttons">
-                        <a href="https://github.com/zlafik1/Playerok-Checker" target="_blank" class="btn btn-primary">
-                            <i class="fab fa-github"></i> GitHub
-                        </a>
-                        <a href="https://github.com/zlafik1/Playerok-Checker/archive/refs/heads/main.zip" class="btn btn-secondary">
-                            <i class="fas fa-download"></i> Скачать
-                        </a>
+                    <div class="project-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="project-header">
+                            <div class="project-icon-small">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h3 class="project-title">Playerok-Checker</h3>
+                        </div>
+                        
+                        <p class="project-description">
+                            Высокопроизводительный чекер аккаунтов для платформы Playerok 
+                            с поддержкой многопоточности и прокси.
+                        </p>
+                        
+                        <div class="project-features">
+                            <h4>Основные возможности:</h4>
+                            <ul class="features-list">
+                                <li>Многопоточная проверка аккаунтов</li>
+                                <li>Поддержка прокси (HTTP/SOCKS)</li>
+                                <li>Гибкая настройка параметров</li>
+                                <li>Детальная статистика выполнения</li>
+                                <li>Экспорт результатов</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tech-stack" style="justify-content: start; margin-top: auto;">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Requests</span>
+                            <span class="tech-tag">Threading</span>
+                            <span class="tech-tag">Proxy</span>
+                        </div>
+                        
+                        <div class="btn-group" style="justify-content: start; margin-top: 20px;">
+                            <a href="https://github.com/zlafik1/Playerok-Checker" target="_blank" class="btn btn-primary">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                            <a href="https://github.com/zlafik1/Playerok-Checker/archive/refs/heads/main.zip" class="btn btn-secondary">
+                                <i class="fas fa-download"></i> Скачать
+                            </a>
+                        </div>
                     </div>
                 </div>
             </section>
             
-            <section id="contact" class="section">
-                <div class="contact-container">
-                    <div class="contact-header">
-                        <h2>Свяжитесь со мной</h2>
-                        <p>Выберите удобный способ для связи</p>
+            <!-- Навыки -->
+            <section id="skills" class="section">
+                <div class="section-header" data-aos="fade-up">
+                    <h2 class="section-title">Навыки & Технологии</h2>
+                    <p class="section-subtitle">Инструменты и технологии, которые я использую в своей работе</p>
+                </div>
+                
+                <div class="skills-container">
+                    <div class="skills-grid">
+                        <div class="skill-category" data-aos="fade-up" data-aos-delay="100">
+                            <h3><i class="fas fa-code"></i> Языки программирования</h3>
+                            <ul class="skill-list">
+                                <li>Python (Advanced)</li>
+                                <li>JavaScript (Intermediate)</li>
+                                <li>SQL (Intermediate)</li>
+                                <li>HTML/CSS (Intermediate)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="skill-category" data-aos="fade-up" data-aos-delay="150">
+                            <h3><i class="fas fa-server"></i> Backend & API</h3>
+                            <ul class="skill-list">
+                                <li>Discord API / discord.py</li>
+                                <li>REST API Development</li>
+                                <li>WebSocket / Real-time</li>
+                                <li>AsyncIO / Asyncio</li>
+                                <li>aiohttp / Requests</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="skill-category" data-aos="fade-up" data-aos-delay="200">
+                            <h3><i class="fas fa-tools"></i> Инструменты & Библиотеки</h3>
+                            <ul class="skill-list">
+                                <li>Git & GitHub</li>
+                                <li>Multithreading</li>
+                                <li>Proxy Integration</li>
+                                <li>Data Parsing</li>
+                                <li>Automation Scripts</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="skill-category" data-aos="fade-up" data-aos-delay="250">
+                            <h3><i class="fas fa-cogs"></i> Дополнительные навыки</h3>
+                            <ul class="skill-list">
+                                <li>Web Scraping</li>
+                                <li>Bot Development</li>
+                                <li>System Automation</li>
+                                <li>Error Handling</li>
+                                <li>Performance Optimization</li>
+                            </ul>
+                        </div>
                     </div>
-                    
-                    <div class="contact-methods">
-                        <div class="contact-card telegram-card">
+                </div>
+            </section>
+            
+            <!-- Контакты -->
+            <section id="contact" class="section">
+                <div class="section-header" data-aos="fade-up">
+                    <h2 class="section-title">Свяжитесь со мной</h2>
+                    <p class="section-subtitle">Выберите удобный способ для связи или отправьте сообщение через форму</p>
+                </div>
+                
+                <div class="contact-container">
+                    <div class="contact-grid" data-aos="fade-up" data-aos-delay="100">
+                        <div class="contact-card">
                             <div class="contact-icon">
                                 <i class="fab fa-telegram"></i>
                             </div>
                             <h3>Telegram</h3>
                             <p>Быстрая связь через Telegram</p>
-                            <a href="https://t.me/zlafik" target="_blank" class="btn btn-primary">@zlafik</a>
+                            <a href="https://t.me/zlafik" target="_blank" class="btn btn-primary">
+                                <i class="fab fa-telegram"></i> @zlafik
+                            </a>
                         </div>
                         
-                        <div class="contact-row">
-                            <div class="contact-card discord-card">
-                                <div class="contact-icon">
-                                    <i class="fab fa-discord"></i>
-                                </div>
-                                <h3>Discord</h3>
-                                <p>Общение в Discord</p>
-                                <a href="#" class="btn btn-primary">zlafik</a>
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <i class="fab fa-discord"></i>
+                            </div>
+                            <h3>Discord</h3>
+                            <p>Общение в Discord</p>
+                            <button class="btn btn-primary" id="copyDiscord">
+                                <i class="fab fa-discord"></i> zlafik
+                            </button>
+                        </div>
+                        
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <h3>Email</h3>
+                            <p>Для деловой переписки</p>
+                            <button class="btn btn-primary" id="copyEmail">
+                                <i class="fas fa-envelope"></i> FendiHan7765@gmail.com
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Форма обратной связи -->
+                    <div class="contact-form" data-aos="fade-up" data-aos-delay="200">
+                        <h3 style="text-align: center; margin-bottom: 30px; font-size: 1.5rem;">Отправить сообщение</h3>
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label for="name">Ваше имя *</label>
+                                <input type="text" id="name" class="form-control" required>
                             </div>
                             
-                            <div class="contact-card email-card">
-                                <div class="contact-icon">
-                                    <i class="fas fa-envelope"></i>
-                                </div>
-                                <h3>Email</h3>
-                                <p>Для деловой переписки</p>
-                                <a href="mailto:FendiHan7765@gmail.com" class="btn btn-primary">FendiHan7765@gmail.com</a>
+                            <div class="form-group">
+                                <label for="email">Ваш email *</label>
+                                <input type="email" id="email" class="form-control" required>
                             </div>
-                        </div>
+                            
+                            <div class="form-group">
+                                <label for="subject">Тема сообщения</label>
+                                <input type="text" id="subject" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message">Сообщение *</label>
+                                <textarea id="message" class="form-control" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                <i class="fas fa-paper-plane"></i> Отправить сообщение
+                            </button>
+                        </form>
                     </div>
                 </div>
             </section>
         </div>
     </main>
     
+    <!-- Футер -->
     <footer>
-        <div class="container">
-            <p>&copy; 2023 zlafik. Все права защищены.</p>
+        <div class="footer-content">
+            <div class="footer-logo">zlafik</div>
+            
+            <div class="footer-links">
+                <a href="#home" data-section="home">Главная</a>
+                <a href="#projects" data-section="projects">Проекты</a>
+                <a href="#skills" data-section="skills">Навыки</a>
+                <a href="#contact" data-section="contact">Контакты</a>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <i class="fas fa-eye"></i>
+                    <span>Посещения: <span id="visitCount">1</span></span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-code"></i>
+                    <span>Проектов: 2</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Опыт: с 2024</span>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                &copy; 2024 zlafik. Все права защищены.
+            </div>
         </div>
     </footer>
     
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     
     <script>
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                const preloader = document.getElementById('preloader');
-                preloader.style.opacity = '0';
-                preloader.style.visibility = 'hidden';
-            }, 1000);
-        });
-        
+        // Инициализация
         document.addEventListener('DOMContentLoaded', function() {
+            // Инициализация AOS
+            AOS.init({
+                duration: 800,
+                once: false,
+                offset: 100,
+                easing: 'ease-out-cubic'
+            });
+            
+            // Частицы
             particlesJS('particles-js', {
                 particles: {
-                    number: {
-                        value: 60,
-                        density: {
-                            enable: true,
-                            value_area: 800
-                        }
+                    number: { 
+                        value: 80, 
+                        density: { 
+                            enable: true, 
+                            value_area: 800 
+                        } 
                     },
-                    color: {
-                        value: "#ffffff"
+                    color: { 
+                        value: "#ffffff" 
                     },
-                    shape: {
-                        type: "circle"
+                    shape: { 
+                        type: "circle" 
                     },
-                    opacity: {
-                        value: 0.1,
-                        random: true,
-                        anim: {
-                            enable: true,
-                            speed: 1,
-                            opacity_min: 0.05,
-                            sync: false
-                        }
+                    opacity: { 
+                        value: 0.1, 
+                        random: true, 
+                        anim: { 
+                            enable: true, 
+                            speed: 1, 
+                            opacity_min: 0.05 
+                        } 
                     },
-                    size: {
-                        value: 2,
-                        random: true,
-                        anim: {
-                            enable: true,
-                            speed: 2,
-                            size_min: 0.5,
-                            sync: false
-                        }
+                    size: { 
+                        value: 2, 
+                        random: true, 
+                        anim: { 
+                            enable: true, 
+                            speed: 2, 
+                            size_min: 0.5 
+                        } 
                     },
-                    line_linked: {
-                        enable: true,
-                        distance: 120,
-                        color: "#ffffff",
-                        opacity: 0.08,
-                        width: 1
+                    line_linked: { 
+                        enable: true, 
+                        distance: 150, 
+                        color: "#ffffff", 
+                        opacity: 0.1, 
+                        width: 1 
                     },
-                    move: {
-                        enable: true,
-                        speed: 0.8,
-                        direction: "none",
-                        random: true,
-                        straight: false,
-                        out_mode: "out",
-                        bounce: false
+                    move: { 
+                        enable: true, 
+                        speed: 1, 
+                        direction: "none", 
+                        random: true, 
+                        straight: false, 
+                        out_mode: "out", 
+                        bounce: false 
                     }
                 },
                 interactivity: {
                     detect_on: "canvas",
-                    events: {
-                        onhover: {
-                            enable: true,
-                            mode: "repulse"
-                        },
-                        resize: true
+                    events: { 
+                        onhover: { 
+                            enable: true, 
+                            mode: "repulse" 
+                        }, 
+                        resize: true 
                     }
                 },
                 retina_detect: true
             });
             
-            const counter = document.getElementById('ageCounter');
-            let interval;
+            // Защита email
+            const email = 'FendiHan7765' + '@' + 'gmail.com';
             
-            function animateAgeCounter() {
-                interval = setInterval(() => {
-                    const randomHours = Math.floor(Math.random() * 100).toString().padStart(2, '0');
-                    const randomMinutes = Math.floor(Math.random() * 60).toString().padStart(2, '0');
-                    const randomSeconds = Math.floor(Math.random() * 60).toString().padStart(2, '0');
-                    const randomMs = Math.floor(Math.random() * 100).toString().padStart(2, '0');
-                    
-                    counter.textContent = `${randomHours}:${randomMinutes}:${randomSeconds}:${randomMs}`;
-                }, 50);
+            // Анимация счетчика
+            const counter = document.getElementById('ageCounter');
+            let counterInterval;
+            
+            function updateCounter() {
+                const now = new Date();
+                const hours = Math.floor(Math.random() * 24).toString().padStart(2, '0');
+                const minutes = Math.floor(Math.random() * 60).toString().padStart(2, '0');
+                const seconds = Math.floor(Math.random() * 60).toString().padStart(2, '0');
+                const ms = Math.floor(Math.random() * 100).toString().padStart(2, '0');
+                
+                counter.textContent = `${hours}:${minutes}:${seconds}:${ms}`;
             }
             
-            setTimeout(animateAgeCounter, 1500);
-        });
-        
-        document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                document.querySelectorAll('nav a').forEach(item => {
-                    item.classList.remove('active');
-                });
-                
-                this.classList.add('active');
-                
-                const targetSection = this.getAttribute('data-section');
-                
-                document.querySelectorAll('.section').forEach(section => {
-                    section.classList.remove('active');
-                });
-                
-                document.getElementById(targetSection).classList.add('active');
-            });
-        });
-        
-        document.querySelectorAll('.btn').forEach(button => {
-            button.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-2px)';
+            setTimeout(() => {
+                counterInterval = setInterval(updateCounter, 50);
+            }, 1000);
+            
+            // Кастомный курсор
+            const cursor = document.querySelector('.custom-cursor');
+            let mouseX = 0, mouseY = 0;
+            let cursorX = 0, cursorY = 0;
+            
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
             });
             
-            button.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
+            function updateCursor() {
+                cursorX += (mouseX - cursorX) * 0.15;
+                cursorY += (mouseY - cursorY) * 0.15;
+                
+                cursor.style.left = cursorX + 'px';
+                cursor.style.top = cursorY + 'px';
+                
+                requestAnimationFrame(updateCursor);
+            }
+            
+            updateCursor();
+            
+            document.querySelectorAll('a, button, .btn, .theme-toggle, #scrollToTop').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    cursor.classList.add('hover');
+                });
+                el.addEventListener('mouseleave', () => {
+                    cursor.classList.remove('hover');
+                });
+                
+                el.addEventListener('mousedown', () => {
+                    cursor.classList.add('click');
+                });
+                
+                el.addEventListener('mouseup', () => {
+                    cursor.classList.remove('click');
+                });
             });
+            
+            // Навигация
+            function updateActiveNav() {
+                const sections = document.querySelectorAll('.section');
+                const navLinks = document.querySelectorAll('.nav-links a, .mobile-menu a');
+                let currentSection = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                        currentSection = section.id;
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-section') === currentSection) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            // Плавный скролл и переключение секций
+            document.querySelectorAll('a[data-section], .footer-links a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('data-section') || this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    if (targetSection) {
+                        // Закрыть мобильное меню если открыто
+                        closeMobileMenu();
+                        
+                        // Плавный скролл
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Обновить активные ссылки
+                        document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(item => {
+                            item.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                        
+                        // Показать секцию
+                        document.querySelectorAll('.section').forEach(section => {
+                            section.classList.remove('active');
+                        });
+                        setTimeout(() => {
+                            targetSection.classList.add('active');
+                        }, 300);
+                    }
+                });
+            });
+            
+            // Событие скролла для обновления навигации и хедера
+            let lastScroll = 0;
+            window.addEventListener('scroll', () => {
+                updateActiveNav();
+                
+                // Эффект скролла хедера
+                const header = document.getElementById('header');
+                const currentScroll = window.pageYOffset;
+                
+                if (currentScroll > 100) {
+                    header.classList.add('scrolled');
+                    if (currentScroll > lastScroll) {
+                        header.style.transform = 'translateY(-100%)';
+                    } else {
+                        header.style.transform = 'translateY(0)';
+                    }
+                } else {
+                    header.classList.remove('scrolled');
+                    header.style.transform = 'translateY(0)';
+                }
+                
+                lastScroll = currentScroll;
+                
+                // Кнопка наверх
+                const scrollBtn = document.getElementById('scrollToTop');
+                scrollBtn.style.display = window.scrollY > 500 ? 'flex' : 'none';
+            });
+            
+            // Кнопка наверх
+            document.getElementById('scrollToTop').addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // Мобильное меню
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+            
+            function openMobileMenu() {
+                mobileMenu.classList.add('active');
+                mobileMenuOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            
+            function closeMobileMenu() {
+                mobileMenu.classList.remove('active');
+                mobileMenuOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            
+            mobileMenuBtn.addEventListener('click', openMobileMenu);
+            mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+            
+            // Уведомления
+            function showNotification(message, type = 'info') {
+                const notification = document.getElementById('notification');
+                notification.innerHTML = `
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                    ${message}
+                `;
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Копирование контактов
+            document.getElementById('copyDiscord').addEventListener('click', function() {
+                navigator.clipboard.writeText('zlafik').then(() => {
+                    showNotification('Discord username скопирован в буфер обмена!', 'success');
+                });
+            });
+            
+            document.getElementById('copyEmail').addEventListener('click', function() {
+                navigator.clipboard.writeText(email).then(() => {
+                    showNotification('Email скопирован в буфер обмена!', 'success');
+                });
+            });
+            
+            // Счетчик посещений
+            let visitCount = parseInt(localStorage.getItem('visitCount')) || 0;
+            visitCount++;
+            localStorage.setItem('visitCount', visitCount);
+            document.getElementById('visitCount').textContent = visitCount;
+            
+            // Форма обратной связи
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value;
+                
+                // Имитация отправки
+                showNotification(`Спасибо, ${name}! Ваше сообщение отправлено. Я свяжусь с вами в ближайшее время.`, 'success');
+                this.reset();
+            });
+            
+            // Скачивание основного проекта
+            document.getElementById('downloadMain').addEventListener('click', function(e) {
+                showNotification('Начинается скачивание Discord Server Cloner V3...', 'success');
+            });
+            
+            // Переключатель темы
+            document.getElementById('themeToggle').addEventListener('click', function() {
+                showNotification('Светлая тема в разработке', 'info');
+            });
+            
+            // Предзагрузчик
+            setTimeout(() => {
+                document.getElementById('preloader').style.opacity = '0';
+                document.getElementById('preloader').style.visibility = 'hidden';
+            }, 1500);
+            
+            // Инициализация активной навигации
+            updateActiveNav();
         });
     </script>
 </body>
