@@ -342,6 +342,8 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 40px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .project-card {
@@ -484,8 +486,10 @@
 
         .contact-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: 1fr;
             gap: 35px;
+            max-width: 400px;
+            margin: 0 auto;
         }
 
         .contact-card {
@@ -549,14 +553,23 @@
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
-            display: inline-block;
+            display: block;
             position: relative;
             z-index: 2;
+            font-size: 1.2rem;
+            padding: 12px 24px;
+            background: rgba(109, 40, 217, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
         }
 
         .contact-link:hover {
             color: var(--text-primary);
             text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+            background: rgba(109, 40, 217, 0.2);
+            border-color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: var(--glow);
         }
 
         footer {
@@ -587,7 +600,7 @@
             .hero h1 { font-size: 3.5rem; }
             .typewriter-container { font-size: 1.8rem; }
             .section-title { font-size: 2.5rem; }
-            .projects-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+            .projects-grid { grid-template-columns: 1fr; max-width: 500px; }
         }
 
         @media (max-width: 768px) {
@@ -601,7 +614,6 @@
             .section-title { font-size: 2.2rem; }
             .project-buttons { flex-direction: column; }
             .btn { width: 100%; }
-            .contact-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 576px) {
@@ -614,12 +626,15 @@
             .projects-grid { grid-template-columns: 1fr; }
             .project-image { height: 180px; }
             .project-content { padding: 20px; }
+            .contact-grid { max-width: 300px; }
+            .contact-card { padding: 25px; }
         }
 
         @media (max-width: 400px) {
             .hero h1 { font-size: 1.8rem; }
             .typewriter-container { font-size: 1.1rem; }
             .specialization { flex-direction: column; align-items: center; }
+            .nav-links { gap: 10px; }
         }
     </style>
 </head>
@@ -691,24 +706,6 @@
                 
                 <div class="project-card">
                     <div class="project-image">
-                        <i class="fas fa-gamepad"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Playerok API</h3>
-                        <p class="project-description">API для интеграции с игровыми сервисами и платформами. Обеспечивает стабильную работу, высокую производительность и простоту использования.</p>
-                        <div class="project-buttons">
-                            <a href="https://github.com/zlafik1/playerokapi" target="_blank" class="btn btn-primary">
-                                <i class="fab fa-github"></i> Исходный код
-                            </a>
-                            <a href="https://github.com/zlafik1/playerokapi/archive/refs/heads/main.zip" class="btn btn-secondary">
-                                <i class="fas fa-download"></i> Скачать
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-image">
                         <i class="fas fa-check-circle"></i>
                     </div>
                     <div class="project-content">
@@ -740,33 +737,6 @@
                     <h3 class="contact-title">Telegram</h3>
                     <p class="contact-text">Свяжитесь со мной в Telegram для быстрого ответа и обсуждения проектов</p>
                     <a href="https://t.me/zlafik" target="_blank" class="contact-link">@zlafik</a>
-                </div>
-                
-                <div class="contact-card">
-                    <div class="contact-icon">
-                        <i class="fab fa-discord"></i>
-                    </div>
-                    <h3 class="contact-title">Discord</h3>
-                    <p class="contact-text">Напишите мне в Discord для обсуждения деталей и сотрудничества</p>
-                    <span class="contact-link">zlafik</span>
-                </div>
-                
-                <div class="contact-card">
-                    <div class="contact-icon">
-                        <i class="fab fa-github"></i>
-                    </div>
-                    <h3 class="contact-title">GitHub</h3>
-                    <p class="contact-text">Посмотрите мои проекты, исходный код и последние обновления</p>
-                    <a href="https://github.com/zlafik1" target="_blank" class="contact-link">github.com/zlafik1</a>
-                </div>
-                
-                <div class="contact-card">
-                    <div class="contact-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3 class="contact-title">Другие проекты</h3>
-                    <p class="contact-text">Посетите мои другие сайты и проекты для более подробной информации</p>
-                    <a href="#" class="contact-link" id="otherProjectsLink">Смотреть все проекты</a>
                 </div>
             </div>
         </div>
@@ -967,7 +937,6 @@
             function initEventListeners() {
                 const navLinks = document.querySelectorAll('.nav-link');
                 const homeLink = document.getElementById('homeLink');
-                const otherProjectsLink = document.getElementById('otherProjectsLink');
                 const scrollToProjects = document.getElementById('scrollToProjects');
                 
                 navLinks.forEach(link => {
@@ -982,13 +951,6 @@
                     homeLink.addEventListener('click', function(e) {
                         e.preventDefault();
                         switchPage('homePage');
-                    });
-                }
-                
-                if (otherProjectsLink) {
-                    otherProjectsLink.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        switchPage('projectsPage');
                     });
                 }
                 
